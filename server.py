@@ -126,8 +126,20 @@ class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     allow_reuse_address = True
 
 
-if __name__ == "__main__":
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8787
+def _running_under_streamlit():
+    try:
+        from streamlit import runtime
+    except ImportError:
+        return False
+    return runtime.exists()
+
+
+if __name__ == "__main__" and _running_under_streamlit():
+    # Streamlit Cloud 가 이 파일을 진입점으로 실행한 경우: 웹서버 대신 Streamlit 앱을 띄운다.
+    import runpy
+    runpy.run_path(os.path.join(ROOT, "streamlit_app.py"), run_name="__main__")
+elif __name__ == "__main__":
+    port =int(sys.argv[1]) if len(sys.argv) > 1 else 8787
     with ThreadingHTTPServer(("0.0.0.0", port), Handler) as httpd:
         print(f"경영회의 자료 뷰어 서버 실행 중: http://0.0.0.0:{port}")
         httpd.serve_forever()
