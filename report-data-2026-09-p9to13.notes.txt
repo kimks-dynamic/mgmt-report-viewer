@@ -1,0 +1,201 @@
+September 2026 (report-data-2026-09-p9to13.js) — extraction notes
+Source: D:\AI\경영회의\1.경영회의(2026년09월)_보고서.xlsx (openpyxl, data_only=True)
+Cross-checked against: D:\AI\경영회의\1.경영회의(2026년09월)_보고서_ver01.pdf (pages 9-13)
+Current month = September (index 8, 0-based / 9월). Data populated through September, null after,
+unless a specific field's own established convention (see page13 below) keeps literal 0 instead.
+
+Every number below was verified against the PDF's own printed table text (not just the Excel
+formula-evaluated value), so I'm confident these match what was actually published in this month's
+report, even where they contradict August's report-data.js.
+
+=====================================================================
+1) CELLS I WAS UNSURE HOW TO INTERPRET / JUDGMENT CALLS
+=====================================================================
+
+PAGE 9 ('3.프로젝트(KOREA)')
+- Customer column (D8, D20, D29) is genuinely BLANK in the September sheet for all three groups
+  (Wheel/현대기아, EV/삼성SDI, Solar/Nevados), same as prior months. Inferred customer names from
+  August's page9 (현대/기아, 삼성SDI, Nevados) since project/commodity list is unchanged — a judgment
+  call, not literally present in September's cells.
+- C29 again reads "Solor" (typo) instead of "Solar" — corrected to "Solar" per the established
+  July/August convention.
+- Milestone "state" (green=Finish / black=Catch-up+note) was read directly from each cell's fill
+  color (openpyxl fill.fgColor: rgb FF00B050 = green; theme=1 = black), not inferred from prior
+  months. Several highlighted milestones moved to a DIFFERENT column than in August (see section 2
+  below) — this is real, not a mapping error; confirmed against the PDF's rendered dashes/bold text.
+- AX EV STYLED "Line Install" cell note changed from August's "Tooling" to September's "품질육성"
+  (quality-growth) — used September's literal text.
+- Housing UPR/LWR/ENDPLATE (KF1 group) "Line Install" cells carry a note ("품의예정") but have NO
+  fill/highlight color in September's sheet (unlike August, where different milestones were
+  black-highlighted). I represented these as `{ v: "...", note: "품의예정" }` with no `state` key —
+  the render function (msCell in report-render.js) still prints the note text even without a
+  state color, so this displays correctly as a plain white cell with note text.
+- Page9 pname fields containing embedded `\n` in the raw sheet (e.g. "Steel Wheel\n(16×6.5J,
+  4.25T)", "Mechanical \nStop") were flattened to a single line with a space, matching August's
+  style — the render function does NOT convert `\n`→`<br>` for the pname column (only for
+  project/remarks/note fields), so keeping literal `\n` would have looked odd.
+- Project label "E092\nKF1\n(Proto)" (two `\n`s in the raw cell) was normalized to one `\n`
+  ("E092 KF1\n(Proto)"), matching August's exact rendering choice for the identical project name.
+- Wheel-group remarks ("부품가 \n감가 상각") normalized to "부품가 감가상각" for all 4 Wheel rows,
+  matching prior months' style. Note: August's AX EV STYLED row appended "· Tooling" to this
+  remark; September's own W17 cell has no such suffix, so I did not add it.
+
+PAGE 10 ('3-1.투자비')
+- Zero-valued monthly/plan cells were converted to `null` (renders as "-"), matching the explicit
+  convention already established in July's notes for this page. Non-zero decimals were rounded to
+  the nearest whole million (656, 92, 4875, etc.) — verified these exact rounded values against the
+  PDF's own printed numbers (e.g. PDF table literally shows "92" for February's 실적, "23" for
+  y2027 사업계획 회수, etc.), so the rounding convention (round-half-up) is confirmed correct.
+- `remainingByCategory` doughnut source ('3-2.투자비_상세'!E26:L27) again has a duplicate/blank
+  "Chassis" header (G26) next to the real one (H26=297) — dropped the blank duplicate, same as
+  July/August.
+- `chart.cumPlan` / `cumExecuted` / `cumActual` come from a SEPARATE "누적" (cumulative) block at
+  the bottom of the same sheet (rows 44-49), not from re-summing the detail table — confirmed this
+  is the correct source because `cumPlan` matches the detail table's 사업계획 총계 exactly and is
+  flat/unchanged vs. August (a fixed annual plan), while `cumExecuted`/`cumActual` pick up September's
+  own revisions (see section 2 below).
+- `recoveryByYear.actual[1]` (2027년 실적) is literal `0` in the sheet's own cumulative recovery row
+  (AB19=0), not blank. Per August's own precedent for this exact chart array (`actual: [2789, 0]`,
+  keeping 0 rather than null even though the parallel table cell `row.recovery.y2027` uses `null`),
+  I kept `0` here too — the chart series and the table cell apparently follow different null
+  conventions in this codebase, and I preserved both as originally used.
+
+PAGE 11 ('3-2.투자비_상세')
+- Column mapping for the last two numeric columns (K=미집행금액/unexecuted, L=절감금액/saving) was
+  verified directly against the PDF's printed values three separate ways (arithmetic: unexecuted ≈
+  total − actual for an still-executing item; a project explicitly marked "종결"(closed) puts its
+  gap in "saving" instead; and the PDF's own column order literally reads 미집행 then 절감). All
+  three agree: **K→unexecuted, L→saving**. IMPORTANT: this is the OPPOSITE of what August's own
+  report-data.js has for the Wheel/LW1 row (`saving: 340, unexecuted: 1`) — LW1's own total (779)
+  minus actual (438) ≈ 340, which can only be "unexecuted" (project still at 56% completion, not
+  closed), so I'm fairly confident August's file has these two fields swapped for that one row. I
+  did NOT change August's file — flagging here in case the team wants to fix it separately.
+- Two rows are entirely empty placeholders (no remarks, all zero/blank): "EV/기타" (row 10) and
+  "공통/건축/구조물" (row 17). Excluded both, same as July/August.
+- Item label for Wheel/AX EV: kept the fuller "AX EV STYELD WHEEL" (matches September's raw cell
+  and the PDF's wrapped text), not August's shortened "AX EV STYELD".
+- Multi-line remarks were joined with " / " for every embedded line break, same mechanical rule
+  used in July's extraction.
+- 해외선투자/북미 Nevados: September's sheet has the 2,305.2 budget recorded under the "사업계획"
+  (E) column with "추가계획" (F) blank, whereas August had it under "추가계획" instead. Confirmed via
+  the PDF ("북미 Nevados 2,305 - - 2,305 ...", i.e. plan filled, extra/cancel blank) that this is a
+  genuine reclassification in the current sheet, not a reading error — used `plan: 2305, extra:
+  null` accordingly.
+- 집행율(rate) for this same Nevados row (78%) does not equal actual/total (1644/2305=71.3%) —
+  the sheet's own J20 cell literally evaluates to 0.776 (78%), likely a stale/uncorrected formula
+  in the source file. Transcribed the literal sheet/PDF value (78%) rather than recomputing.
+- Seat/9BUX remarks mention a large new line item: "9BXX TRACK LWR 용접라인 자동화 투자(227/226)" —
+  a ~226백만원 automation investment that did not exist in August's version of this row (August's
+  actual was only 64; September's is 290). This single item is also the biggest driver of the large
+  upward revisions seen on pages 10 and 12 (see section 2).
+
+PAGE 12 ('4-1.고객실적 및 사내공정불량율(26년)')
+- "주요 품질 Issue" free-text cell is completely blank for September (the August 14 GMKOREA weld
+  issue text is gone) — set `issue: ""`.
+- SPPS CHASSIS "1" incident is at the AUGUST index (L8=1) in September's own sheet, whereas August's
+  own report had shown this same "1" at the JULY index. This matches the exact "retroactive
+  reshuffle by one month" pattern already flagged in July's notes for this page — used September's
+  own sheet position (Aug) rather than August's reported position (Jul).
+- PPM actual monthly values for August (Wheel 62 vs. August's own reported 39; Chassis 29 vs.
+  August's own reported 21) are revised upward in September's report — consistent with the
+  recurring "actual figures for the most recent month get revised as more data comes in" pattern
+  noted in prior months. Used September's own sheet values throughout.
+- Module category label in the raw sheet is "샤시모듈" (not "모듈생산팀"); kept it mapped to the
+  `module` key as usual since the display title ("모듈생산팀") is hard-coded in report-render.js,
+  not read from the data.
+- Rows 43-44 ("공정불량율" 목표/실적) exist in the sheet but are outside the fixed 4-category page12
+  schema — left out, as in prior months.
+
+PAGE 13 ('4-2.Q-COST 실적&주요이벤트 및 공지')
+- eventTable.rows is POPULATED this month (unlike July, which was blank): one row, 사내/품질시스템
+  개선 방안 보고, scheduled 9/21. Confirmed against the PDF's event table.
+- Chassis&Wheel "예방비용" (prevCost): July (M27) is genuinely BLANK in the source (not present),
+  while June, August and September (L27, N27, O27) are explicit 0 — kept `null` for July only,
+  explicit `0` for June/Aug/Sep, matching the sheet exactly (same "hole in the middle" pattern
+  August's own file has for June/July).
+- "실적"(actual) row and each group's first item row (9BUX) keep explicit `0` for Oct-Dec instead
+  of `null`, mirroring the exact precedent set in July/August's files for these two specific rows;
+  all other item rows (AURORA/LJL/C121/기타차종/F-CLAIM) go blank→`null` starting the month after
+  September.
+- IMPORTANT / worth double-checking: Seat Q-Cost "실적" (actual) row shows August (N30) and
+  September (O30) as literal `0` in the sheet (not blank) — meaning August's own reported Seat
+  actual of 155 for that month has apparently been reversed/zeroed out in September's report. The
+  PDF confirms this too (실적 row prints "- - - - -" for Aug onward, and the printed total 1,119
+  arithmetically equals just the Jan-Jul sum, excluding Aug/Sep entirely). This is a downward
+  revision, the opposite direction of most other revisions in this report — flagging in case it
+  should be reconciled with August's report rather than taken at face value.
+- Q-cost Rate for September itself (O28 for Chassis&Wheel, O37 for Seat) is genuinely BLANK in the
+  sheet even though target/actual for September have values — kept `null` for September specifically
+  on the rate rows only.
+
+=====================================================================
+2) STRUCTURAL DIFFERENCES vs. AUGUST
+=====================================================================
+- Page9 project list is UNCHANGED (LW1 x3 SKUs, AX EV STYLED x1, E092 KF1(Proto) x3 sub-parts,
+  Nevados x3 items) — no additions/removals. But several real changes inside it:
+  * EV/KF1 (Proto) project schedule slipped significantly: T.K.O. moved from 26-3-16 (August) to
+    26-8-24 (September); 1st Delivery from 26-7-10 to 27-1-29; PPAP/RUN/SORP all became "N/A"
+    (previously specific 2028/2029 dates). The highlighted "Finish" milestone also moved from
+    D1/PV-Completed (August) to T.K.O. (September). This looks like a full project re-baseline, not
+    a minor date nudge — worth confirming with the project team if this magnitude of slip is
+    expected.
+  * All 3 Nevados items now show non-null `recActual`/`recDate` (365/1212/67, dated 2026-08) where
+    August had `recActual: null` — customer recovery has apparently now been recorded for these,
+    matching each item's `invActual` exactly.
+  * Nevados milestone highlights (green "Finish" markers) advanced forward by one milestone each
+    (e.g. Retention: Line Install→D1; Coupler: Line Install→D1; Mechanical Stop: unchanged at
+    T.K.O., but its black "Catch-up" highlight moved from D1 to Line Install). PPAP dates for
+    Retention/Coupler slipped a month (26-8-31→26-9-30 and 26-8-31→26-11-30 respectively); SORP for
+    all 3 items moved from Nov 2026 to Jan 2027 (Mechanical Stop's SORP also changed from a fixed
+    date to "TBD").
+  * Wheel group (LW1 x3, AX EV STYLED) is completely static — identical dates and investment figures
+    to August, i.e. zero incremental activity this month.
+- Page10/11: table structure (합계/국내/해외선투자, 4/3/3 rows; 13-category page11 detail list) is
+  unchanged. The 국내 실행계획 (execution plan) got internally REALLOCATED between months — February's
+  allocation dropped from 522→295 while August's rose from 147→374 (net zero through August, so
+  total by August is unchanged; September's own +69 addition is the only real change to the
+  year total, which rose from 8,305→8,374). This is a calendar reallocation within the plan, not new
+  spending.
+  Separately, actual investment execution (실적) for August was revised UP substantially: from
+  39.3백만원 (as reported in August's own file) to ~277백만원 in September's report — driven mainly
+  by the newly-recorded "9BXX LWR TRACK 용접라인 자동화 투자" item (~226백만원, see page11 note
+  above) apparently being posted retroactively to August. February's actual also quietly dropped
+  from 121→92 (a −29 revision, direction and cause unclear from the sheet alone).
+- Page12/13: no category/metric list changes; several August actuals (PPM Wheel/Chassis, page10
+  investment) were revised upward as noted above, while Seat Q-Cost's August actual was revised
+  DOWN to zero (also noted above) — this report has both directions of revision this month, more so
+  than prior months.
+
+=====================================================================
+3) KEY TOTALS FOR SPOT-CHECK (all confirmed against the PDF's own printed table text)
+=====================================================================
+Page10:
+  - table.groups[0] (합계) 실행계획 total (S18, full-year incl. all 12 months): 8,374백만원
+    (PDF: "6,031 3,885 295 355 2,625 113 636 12 374 69 10 8,374 ...")
+  - table.groups[0] (합계) 실적 total (S19, through Sep only): 6,754백만원
+  - chart.cumExecuted[11] (Dec, year-end 실행계획 total): 8,374
+  - recoveryByYear.plan = [6092, 195] (2026/2027); recoveryByYear.actual = [3254, 0]
+
+Page11:
+  - total.plan (사업계획 합계): 4,861백만원 — matches page10 exactly.
+  - total.extra (추가계획 합계): 3,563백만원 — matches page10's planDelta (3,563) exactly.
+  - total.total (계획합계): 8,374백만원 — matches page10's 실행계획 total exactly.
+  - total.actual (투자실적 합계): 6,755백만원 (PDF prints 6,755; page10's own 실적 total is 6,754 —
+    a 1백만원 rounding-path difference between the two sheets' own aggregation, both transcribed
+    faithfully from each sheet's own printed total rather than forced to agree).
+  - total.saving (절감금액): 179백만원; total.unexecuted (미집행금액): 1,441백만원 — matches
+    page10's group[0].remaining (1,441) exactly.
+
+Page9:
+  - EV/삼성SDI group (KF1 B-sample, mergeGroupCols): groupInvest.plan = 2,214, groupInvest.actual =
+    1,992 (90%); groupRecovery.plan = 1,134, actual = null, date = 2026-10.
+
+Page12:
+  - PPM cumulative (Jan-Sep): Wheel cumActual 54 (vs cumTarget 100); Chassis cumActual 25 (vs
+    cumTarget 35); Seat/Module cumActual 0.
+
+Page13:
+  - Chassis&Wheel Q-Cost: target total 15,210(천원) [unchanged full-year figure], actual total
+    (Jan-Sep) 8,326; failCost total 4,711.
+  - Seat Q-Cost: target total 2,460 [unchanged], actual total (Jan-Sep, excluding the zeroed-out
+    Aug/Sep — see note above) 1,119.

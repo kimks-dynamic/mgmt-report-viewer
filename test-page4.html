@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경영회의 (2026년 08월) - 4p</title>
+<link rel="stylesheet" href="test-page4.css">
+</head>
+<body>
+<div class="sheet">
+
+  <header class="sheet-header">
+    <h1>1. 매출 / 부가가치 / 인원 현황</h1>
+  </header>
+
+  <section class="chart-row">
+    <div class="chart-card main-chart">
+      <div class="legend-row" id="main-legend"></div>
+      <div class="chart-canvas-wrap">
+        <canvas id="mainChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card side-chart">
+      <div class="unit-label">억원</div>
+      <canvas id="sideChart"></canvas>
+    </div>
+  </section>
+
+  <section class="table-wrap">
+    <table class="report-table">
+      <colgroup>
+        <col class="col-group1"><col class="col-group2">
+        <col class="col-yr"><col class="col-avg">
+        <col span="12" class="col-month">
+        <col class="col-cum"><col class="col-total">
+      </colgroup>
+      <thead>
+        <tr>
+          <th rowspan="2" colspan="2">구분</th>
+          <th colspan="2">2025년 실적</th>
+          <th colspan="12">2026년</th>
+          <th rowspan="2">누계</th>
+          <th rowspan="2">합계</th>
+        </tr>
+        <tr>
+          <th>년간</th><th>월평균</th>
+          <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
+          <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="sheet-footer">4/14</footer>
+</div>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script src="test-page4-data.js"></script>
+<script src="test-page4.js"></script>
+</body>
+</html>

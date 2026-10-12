@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경영회의 (2026년 06월)</title>
+<link rel="stylesheet" href="report.css?v=49">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-title">경영회의 (2026년 06월) &middot; AUSTEM</div>
+  <div class="toolbar-controls">
+    <button id="prev-page">↑ 이전</button>
+    <span id="page-indicator">1 / 14</span>
+    <button id="next-page">다음 ↓</button>
+  </div>
+</div>
+
+<div class="pages-root" id="pages-root">
+  <!-- Page 1: Cover -->
+  <section class="sheet cover-sheet" data-page="1">
+    <div class="cover-banner">대외비(confidential information)</div>
+    <div class="cover-content">
+      <h1 class="cover-title">경 영 회 의</h1>
+      <div class="cover-sub">(2026년 06월)</div>
+      <div class="cover-date">2026. 06. 22.</div>
+      <div class="cover-company">AUSTEM</div>
+    </div>
+  </section>
+
+  <!-- Page 2: TOC -->
+  <section class="sheet" data-page="2">
+    <header class="sheet-header"><h1>목차</h1></header>
+    <ul class="toc-list">
+      <li class="toc-note">※ 전월 지시사항</li>
+      <li>1. 국내사업장 매출 및 부가가치 현황 및 상세</li>
+      <li>2. 전월 실적 및 당월 예상 손익 현황</li>
+      <li>3. 프로젝트 진행현황 및 투자비 현황</li>
+      <li>4. 품질지표(고객, 사내, Q-Cost)</li>
+      <li class="toc-note">※ 강평</li>
+    </ul>
+    <footer class="sheet-footer">2/14</footer>
+  </section>
+
+  <!-- Page 3: 전월 지시사항 -->
+  <section class="sheet" data-page="3">
+    <header class="sheet-header"><h1>※ 전월 지시사항</h1></header>
+    <table class="report-table plain-table">
+      <thead>
+        <tr><th style="width:12%">구분</th><th style="width:38%">지시 및 보완사항</th><th style="width:38%">추진실적 및 현황</th><th style="width:12%">비고</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    <footer class="sheet-footer">3/14</footer>
+  </section>
+
+  <!-- Page 4: 매출/부가가치/인원 현황 -->
+  <section class="sheet" data-page="4">
+    <header class="sheet-header"><h1>1. 매출 / 부가가치 / 인원 현황</h1></header>
+    <section class="chart-row p4-chart-row">
+      <div class="chart-card main-chart">
+        <div class="legend-row" id="p4-legend"></div>
+        <div class="chart-canvas-wrap"><canvas id="p4-mainChart"></canvas></div>
+      </div>
+      <div class="chart-card side-chart">
+        <div class="unit-label">억원</div>
+        <div class="chart-canvas-wrap2"><canvas id="p4-sideChart"></canvas></div>
+      </div>
+    </section>
+    <section class="table-wrap">
+      <table class="report-table" id="p4-table">
+        <colgroup>
+          <col class="col-group1"><col class="col-group2">
+          <col class="col-yr"><col class="col-avg">
+          <col span="12" class="col-month">
+          <col class="col-cum"><col class="col-total">
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2" colspan="2">구분</th>
+            <th colspan="2">2025년 실적</th>
+            <th colspan="12">2026년</th>
+            <th rowspan="2">누계</th><th rowspan="2">합계</th>
+          </tr>
+          <tr>
+            <th>년간</th><th>월평균</th>
+            <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
+            <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
+          </tr>
+        </thead>
+        <tbody id="p4-table-body"></tbody>
+      </table>
+    </section>
+    <footer class="sheet-footer">4/14</footer>
+  </section>
+
+  <!-- Page 5: 매출 상세 증감 현황 -->
+  <section class="sheet" data-page="5">
+    <header class="sheet-header"><h1>1. 매출 / 부가가치 / 인원 현황</h1></header>
+    <div class="sheet-subtitle-row">
+      <span>※ 매출 상세 증감 현황</span>
+      <span class="subtitle-row-unit">(단위: 백만원)</span>
+    </div>
+    <section class="table-wrap p5-table-wrap">
+      <table class="report-table dense-table" id="p5-table"></table>
+    </section>
+    <footer class="sheet-footer">5/14</footer>
+  </section>
+
+  <!-- Page 6: 사업부문별 상세현황 -->
+  <section class="sheet" data-page="6">
+    <header class="sheet-header"><h1>1-1. 사업부문별 상세현황</h1></header>
+    <div class="sheet-subtitle-row">
+      <span></span>
+      <span class="subtitle-row-unit">단위 : 대, 백만원, %</span>
+    </div>
+    <section class="table-wrap p6-table-wrap">
+      <table class="report-table dense-table" id="p6-table"></table>
+    </section>
+    <footer class="sheet-footer">6/14</footer>
+  </section>
+
+  <!-- Page 7: 환율 변동 Impact -->
+  <section class="sheet" data-page="7">
+    <header class="sheet-header"><h1>환율 변동에 따른 매출/부가가치 Impact</h1></header>
+    <section class="chart-row p7-chart-row">
+      <div class="chart-card p7-fx-chart-card">
+        <div class="legend-row" id="p7-fx-legend"></div>
+        <div class="chart-canvas-wrap"><canvas id="p7-fxChart"></canvas></div>
+      </div>
+    </section>
+    <div class="fx-block">
+      <h2 class="fx-block-title"><span>&lt;매출&gt;</span><span class="unit-inline">단위: 백만원</span></h2>
+      <table class="report-table dense-table" id="p7-revenue-table"></table>
+    </div>
+    <div class="fx-block">
+      <h2 class="fx-block-title"><span>&lt;부가가치&gt;</span><span class="unit-inline">단위: 백만원</span></h2>
+      <table class="report-table dense-table" id="p7-va-table"></table>
+    </div>
+    <div class="fx-block">
+      <h2 class="fx-block-title"><span>&lt;관세&gt;</span><span class="unit-inline">단위: 백만원</span></h2>
+      <table class="report-table dense-table" id="p7-duty-table"></table>
+    </div>
+    <footer class="sheet-footer">7/14</footer>
+  </section>
+
+  <!-- Page 8: 손익현황 -->
+  <section class="sheet" data-page="8">
+    <header class="sheet-header"><h1>2. 전월 실적 및 당월 예상 손익 현황</h1></header>
+    <div class="sheet-subtitle-row"><span></span><span class="subtitle-row-unit">단위: 백만원, %</span></div>
+    <section class="table-wrap p8-table-wrap">
+      <table class="report-table dense-table" id="p8-table"></table>
+    </section>
+    <footer class="sheet-footer">8/14</footer>
+  </section>
+
+  <!-- Page 9: 신규 Project 진행현황 -->
+  <section class="sheet" data-page="9">
+    <header class="sheet-header"><h1>3. 신규 Project 진행 현황 - KOREA</h1></header>
+    <div class="sheet-subtitle-row"><span class="p9-legend">Legend : ○ (Plan), <span class="p9-legend-dot" style="color:#4caf50;">●</span>(Finish), <span class="p9-legend-dot" style="color:#f2c14e;">●</span>(Catch up), <span class="p9-legend-dot" style="color:#e53935;">●</span>Emergency, N.A</span><span class="subtitle-row-unit">단위: 백만원</span></div>
+    <section class="table-wrap p9-table-wrap">
+      <table class="report-table dense-table" id="p9-table"></table>
+    </section>
+    <footer class="sheet-footer">9/14</footer>
+  </section>
+
+  <!-- Page 10: 국내 투자비 현황 -->
+  <section class="sheet" data-page="10">
+    <header class="sheet-header"><h1>3-1. 국내 투자비(선투자 포함) 및 투자비 회수 현황</h1></header>
+    <div class="sheet-subtitle-row"><span></span><span class="subtitle-row-unit">금액단위: 백만원</span></div>
+    <section class="chart-row p10-chart-row">
+      <div class="chart-card main-chart">
+        <div class="legend-row" id="p10-legend"></div>
+        <div class="chart-canvas-wrap"><canvas id="p10-mainChart"></canvas></div>
+      </div>
+      <div class="chart-card side-chart">
+        <div class="unit-label p10-chart-title">잔여 투자 현황</div>
+        <div class="chart-canvas-wrap2"><canvas id="p10-sideChart"></canvas></div>
+      </div>
+      <div class="chart-card side-chart p10-recovery-chart">
+        <div class="unit-label p10-chart-title">회수 현황</div>
+        <div class="chart-canvas-wrap2"><canvas id="p10-recoveryChart"></canvas></div>
+      </div>
+    </section>
+    <section class="table-wrap p10-table-wrap">
+      <table class="report-table dense-table" id="p10-table"></table>
+    </section>
+    <div class="note-box p10-notes-box" id="p10-notes"></div>
+    <footer class="sheet-footer">10/14</footer>
+  </section>
+
+  <!-- Page 11: 투자비 상세현황 -->
+  <section class="sheet" data-page="11">
+    <header class="sheet-header"><h1>3-2. 투자비 상세 현황</h1></header>
+    <div class="sheet-subtitle-row"><span></span><span class="subtitle-row-unit">단위: 백만원</span></div>
+    <section class="table-wrap p11-table-wrap">
+      <table class="report-table dense-table" id="p11-table"></table>
+    </section>
+    <footer class="sheet-footer">11/14</footer>
+  </section>
+
+  <!-- Page 12: 품질지표 고객/사내실적 -->
+  <section class="sheet" data-page="12">
+    <header class="sheet-header"><h1>4. 품질 지표</h1></header>
+    <div class="p12-section-title">1) 고객 실적</div>
+    <section class="table-wrap p12-table-wrap">
+      <table class="report-table dense-table" id="p12-table-customer"></table>
+    </section>
+    <div class="p12-section-title">2. 2026년 사내 실적(공정불량율)</div>
+    <section class="chart-row four-up" id="p12-charts"></section>
+    <section class="table-wrap p12-table-wrap2">
+      <table class="report-table dense-table" id="p12-table-ppm"></table>
+    </section>
+    <footer class="sheet-footer">12/14</footer>
+  </section>
+
+  <!-- Page 13: 품질지표 Q-Cost -->
+  <section class="sheet" data-page="13">
+    <header class="sheet-header"><h1>4. 품질 지표</h1></header>
+    <div class="p12-section-title"><span>3) 사내 실적 (Q-COST)</span><span class="p13-unit">단위:천원</span></div>
+    <section class="chart-row two-up" id="p13-charts"></section>
+    <section class="table-wrap p13-table-wrap">
+      <table class="report-table dense-table" id="p13-table"></table>
+    </section>
+    <div class="p12-section-title">4) 주요 이벤트 및 공지 사항</div>
+    <section class="table-wrap p13-event-wrap">
+      <table class="report-table dense-table" id="p13-event-table"></table>
+    </section>
+    <footer class="sheet-footer">13/14</footer>
+  </section>
+
+  <!-- Page 14: 강평 -->
+  <section class="sheet cover-sheet" data-page="14">
+    <div class="cover-content cover-content-topleft">
+      <h1 class="cover-title small">강평 말씀</h1>
+    </div>
+    <footer class="sheet-footer">14/14</footer>
+  </section>
+</div>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script src="report-data-2026-06.js?v=41"></script>
+<script src="report-render.js?v=49"></script>
+<script src="report-nav.js?v=41"></script>
+</body>
+</html>
